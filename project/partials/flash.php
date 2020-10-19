@@ -12,7 +12,6 @@
         <?php endforeach; ?>
     <?php endif; ?>
 </div>
-<nav>
 <script>
     //used to pretend the flash messages are below the first nav element
     function moveMeUp(ele) {
@@ -24,4 +23,3 @@
 
     moveMeUp(document.getElementById("flash"));
 </script>
-<nav>
