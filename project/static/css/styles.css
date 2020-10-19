@@ -40,8 +40,8 @@ input, select {
 
 input[type=submit] {
     width: 25%;
-    background-color: #026e02;
-    color: white;
+    background-color: #abcdef;
+    color: #cccccc;
     padding: 14px 20px;
     margin: 8px 2px;
     border: none;
