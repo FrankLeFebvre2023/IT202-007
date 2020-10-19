@@ -9,7 +9,7 @@ ul[class="nav"]{
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #026e02;
+    background-color: #abcdef;
 }
 
 .nav > li {
@@ -25,13 +25,13 @@ ul[class="nav"]{
 }
 
 .nav > li a:hover {
-    background-color: #39ca40;
+    background-color: #abcdef;
 }
 
 input, select {
-    width: 100%;
+    width: 25%;
     padding: 12px 20px;
-    margin: 8px 0;
+    margin: 8px 4px;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -39,11 +39,11 @@ input, select {
 }
 
 input[type=submit] {
-    width: 100%;
+    width: 25%;
     background-color: #026e02;
     color: white;
     padding: 14px 20px;
-    margin: 8px 0;
+    margin: 8px 2px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
