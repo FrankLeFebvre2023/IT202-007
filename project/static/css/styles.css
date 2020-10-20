@@ -1,6 +1,6 @@
 /* design intentionally made horrible to see who doesn't change it*/
 body {
-    font-family: system;
+    font-family: Roboto;
     font-size: 1.5em;
 }
 
@@ -9,7 +9,7 @@ ul[class="nav"]{
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #abcdef;
+    background-color: #111111;
 }
 
 .nav > li {
@@ -22,31 +22,35 @@ ul[class="nav"]{
     text-align: center;
     padding: 16px;
     text-decoration: none;
+	
 }
 
 .nav > li a:hover {
-    background-color: #abcdef;
+    background-color: #696969;
 }
 
 input, select {
-    width: 25%;
+    width: 100%;
     padding: 12px 20px;
     margin: 8px 4px;
     display: inline-block;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 8px;
     box-sizing: border-box;
 }
 
 input[type=submit] {
     width: 25%;
-    background-color: #abcdef;
-    color: #cccccc;
+    background-color: #55aaff;
+    color: white;
     padding: 14px 20px;
     margin: 8px 2px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
+}
+input[type=submit]:hover{
+	background-color: #abccff;
 }
 
 input:nth-of-type(1) {
@@ -55,21 +59,21 @@ input:nth-of-type(1) {
 }
 
 input:nth-of-type(2) {
-    margin-left: 10px !important;
-    margin-right: 10px !important;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
 }
 
 input:nth-of-type(3) {
-    margin-left: 15px !important;
-    margin-right: 15px !important;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
 }
 
 input:nth-of-type(4) {
-    margin-left: 20px !important;
-    margin-right: 20px !important;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
 }
 
 input:nth-of-type(5) {
-    margin-left: 25px !important;
-    margin-right: 25px !important;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
 }

@@ -12,6 +12,10 @@ if (isset($_POST["register"])) {
     if (isset($_POST["password"])) {
         $password = $_POST["password"];
     }
+	if(strlen($password) < 8){
+		$password = null;
+		flash("Invalid Password. Password must be 8 or more characters in length.");
+	}
     if (isset($_POST["confirm"])) {
         $confirm = $_POST["confirm"];
     }
@@ -28,7 +32,7 @@ if (isset($_POST["register"])) {
         flash("Passwords don't match");
         $isValid = false;
     }
-    if (!isset($email) || !isset($password) || !isset($confirm)) {
+    if (!isset($email) || !isset($password) || !isset($confirm) || !isset($username)) {
         $isValid = false;
     }
     //TODO other validation as desired, remember this is the last line of defense
@@ -74,9 +78,9 @@ if (!isset($username)) {
         <label for="user">Username:</label>
         <input type="text" id="user" name="username" required maxlength="60" value="<?php safer_echo($username); ?>"/>
         <label for="p1">Password:</label>
-        <input type="password" id="p1" name="password" required/>
+        <input type="password" id="p1" name="password" required maxlength ="60"/>
         <label for="p2">Confirm Password:</label>
-        <input type="password" id="p2" name="confirm" required/>
+        <input type="password" id="p2" name="confirm" required maxlength ="60"/>
         <input type="submit" name="register" value="Register"/>
     </form>
 <?php require(__DIR__ . "/partials/flash.php");
