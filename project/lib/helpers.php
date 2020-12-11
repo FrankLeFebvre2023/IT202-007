@@ -1,3 +1,4 @@
+
 <?php
 session_start();//we can start our session here so we don't need to worry about it on other pages
 require_once(__DIR__ . "/db.php");
@@ -69,4 +70,27 @@ function getMessages() {
 }
 
 //end flash
+function getURL($path) {
+    if (substr($path, 0, 1) == "/") {
+        return $path;
+    }
+    return $_SERVER["CONTEXT_PREFIX"] . "/repo/project/$path";
+}
+function getState($n) {
+    switch ($n) {
+        case 0:
+            echo "Draft";
+            break;
+        case 1:
+            echo "Private";
+            break;
+        case 2:
+            echo "Public";
+            break;
+        default:
+            echo "Unsupported state: " . safer_echo($n);
+            break;
+    }
+}
+
 ?>
