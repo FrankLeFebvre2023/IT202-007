@@ -47,7 +47,7 @@ if (isset($_POST["submit"])) {
 if (isset($_GET["id"])) {
     $sid = $_GET["id"];
     $db = getDB();
-    $stmt = $db->prepare("SELECT q.id as GroupId, q.id as QuestionId, q.question, s.id as SurveyId, s.name as SurveyName, a.id as AnswerId, a.answer FROM Surveys as s JOIN Questions as q on s.id = q.survey_id JOIN Answers as a on a.question_id = q.id WHERE :id not in (SELECT user_id from Responses where user_id = :id and survey_id = :survey_id) and s.id = :survey_id");
+    $stmt = $db->prepare("SELECT q.id as GroupId, q.id as QuestionId, q.question, s.id as SurveyId, s.name as SurveyName, a.id as AnswerId, a.answer FROM Surveys as s JOIN Question as q on s.id = q.survey_id JOIN Answers as a on a.question_id = q.id WHERE :id not in (SELECT user_id from Responses where user_id = :id and survey_id = :survey_id) and s.id = :survey_id");
     $r = $stmt->execute([":id" => get_user_id(), ":survey_id" => $sid]);
     $name = "";
     $questions = [];
@@ -87,7 +87,7 @@ if (isset($_GET["id"])) {
 }
 else {
     flash("Invalid survey, please try again", "warning");
-    die(header("Location: " . getURL("surveys.php")));
+    die(header("Location: " .getURL("surveys.php")));
 }
 ?>
 
@@ -104,12 +104,17 @@ else {
                             <?php foreach ($question["answers"] as $answer): ?>
                                 <?php $eleId = $index . '-' . $answer["answerId"]; ?>
                                 <label class="btn btn-primary m-1 btn-outline-light btn-block" style="border-radius: 0"
-                                       role="button" for="option-<?php echo $eleId; ?>">
+                                       <div class="form-group" ied>
+										<label for="question_0_answer_0">Answer</label>
+										<input class="form-control" type="text" id="question_0_answer_0"
+										name="question_0_answer_0"
+										required/>
+										</div>
                                     <input type="radio" name="<?php safer_echo($index); ?>"
                                            id="option-<?php echo $eleId; ?>"
                                            autocomplete="off"
                                            value="<?php safer_echo($answer["answerId"]); ?>">
-                                    <?php safer_echo($answer["answer"]); ?>
+                                    
                                 </label>
                             <?php endforeach; ?>
                         </div>
