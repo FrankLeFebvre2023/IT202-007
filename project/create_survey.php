@@ -1,7 +1,7 @@
 
 <?php require_once(__DIR__ . "/partials/nav.php"); ?>
 <?php
-if (!has_role("Admin")) {
+if (!is_logged_in()) {
     //this will redirect to login and kill the rest of this script (prevent it from executing)
     flash("You don't have permission to access this page");
     die(header("Location: login.php"));
@@ -18,6 +18,7 @@ if (isset($_POST["submit"])) {
     $is_valid = true;
     if (strlen($questionnaire_name) > 0) {
         //make sure we have a name
+		$visibility = $_POST["visibility"];
         $questionnaire_desc = $_POST["questionnaire_desc"];
         $attempts_per_day = $_POST["attempts_per_day"];
         //TODO important to note, if a checkbox isn't toggled/checked it won't be sent with the request.
@@ -91,6 +92,7 @@ if (isset($_POST["submit"])) {
                 "attempts_per_day" => $attempts_per_day,
                 "max_attempts" => $max_attempts,
                 "use_max" => $use_max,
+				"visibility" =>$visibility,
                 "questions" => $questions//contains answers
             ];
             //echo "<pre>" . var_export($questionnaire, true) . "</pre>";
@@ -120,12 +122,13 @@ function save_questionnaire($questionnaire) {
     $db = getDB();
     $hadError = false;
     //insert survey
-    $stmt = $db->prepare("INSERT INTO Surveys (name, description, attempts_per_day, max_attempts,use_max, user_id) VALUES (:name, :desc, :apd, :ma, :um, :user_id)");
+    $stmt = $db->prepare("INSERT INTO Surveys (name, description, attempts_per_day, max_attempts,use_max,visibility, user_id) VALUES (:name, :desc, :apd, :ma, :um, :vis, :user_id)");
     $r = $stmt->execute([
         ":name" => $questionnaire["name"],
         ":desc" => $questionnaire["description"],
         ":apd" => $questionnaire["attempts_per_day"],
         ":ma" => $questionnaire["max_attempts"],
+		":vis" => $questionnaire["visibility"],
         ":um" => $questionnaire["use_max"] ? "1" : "0",//Convert to 1 or 0 for insertion as tinyint 
         ":user_id" => get_user_id()
     ]);
@@ -136,7 +139,7 @@ function save_questionnaire($questionnaire) {
         //answers one at a time.
         //loop over each question, insert the question and respective answers
         foreach ($questionnaire["questions"] as $questionIndex => $q) {
-            $stmt = $db->prepare("INSERT INTO Questions(question, survey_id) VALUES (:q, :survey_id)");
+            $stmt = $db->prepare("INSERT INTO Question(question, survey_id) VALUES (:q, :survey_id)");
             //echo "<pre>" .var_export($q, true) . "</pre>";
             $r = $stmt->execute([":q" => $q["question"], ":survey_id" => $survey_id]);
             if ($r) {//insert answers
@@ -226,7 +229,12 @@ function save_questionnaire($questionnaire) {
                 </div>
             </div>
             <button class="btn btn-secondary git" onclick="event.preventDefault(); cloneThis(this);">Add Question</button>
-
+			<label>Visibility</label>
+				<select name = "visibility">
+					<option value="0">Draft</option>
+					<option value="1">Private</option>
+					<option value="2">Public</option>
+				</select>
             <div class="form-group">
                 <input type="submit" name="submit" class="btn btn-primary" value="Create Questionnaire"/>
             </div>
