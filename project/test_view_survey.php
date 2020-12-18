@@ -57,6 +57,8 @@ if (isset($id)) {
 <?php else: ?>
     <p>Error looking up id...</p>
 <?php endif; ?>
+<div>
+	<a type="button" href="test_edit_surveys.php?id=<?php safer_echo($result['id']); ?>">Edit Survey</a>
 <form method="POST">
 	<input type="submit" name="saved" value="Deactivate Survey"/>
 </form>
