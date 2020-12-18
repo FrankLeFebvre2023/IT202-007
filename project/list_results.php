@@ -31,15 +31,15 @@ if (isset($results)) {
 				<div class="row">
 				   <div>
                         <div>Survey ID:</div>
-                        <div><?php safer_echo($r["survey_id"]); ?></div>
+                        <div><?php safer_echo($s["survey_id"]); ?></div>
                     </div>
 					<div>
                         <div>Question ID:</div>
-                        <div><?php safer_echo($r["question_id"]); ?></div>
+                        <div><?php safer_echo($s["question_id"]); ?></div>
                     </div>
 					<div>
                         <div>Answer ID:</div>
-                        <div><?php safer_echo($r["answer_id"]); ?></div>
+                        <div><?php safer_echo($s["answer_id"]); ?></div>
                     </div>
 				</div>
                 </div>
