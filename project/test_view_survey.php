@@ -13,11 +13,25 @@ if (isset($_GET["id"])) {
 }
 ?>
 <?php
+if(isset($_POST["saved"])){
+	$db = getDB();
+	$newVisibility = 3;
+	$stmt = $db->prepare("UPDATE Surveys set visibility = :visibility where id = :id");
+	$r = $stmt->execute([":visibility" => $newVisibility, ":id" => $id]);
+	if ($r) {
+            flash("Survey Deactivated");
+    }
+    else {
+            flash("Error: Could not deactivate survey!");
+    }
+}
+?>
+<?php
 //fetching
 $result = [];
 if (isset($id)) {
     $db = getDB();
-    $stmt = $db->prepare("SELECT Survey.id,title,description,visibility, user_id, Users.username FROM Survey as Survey JOIN Users on Survey.user_id = Users.id where Survey.id = :id");
+    $stmt = $db->prepare("SELECT Surveys.id,name,description,visibility, user_id, Users.username FROM Surveys as Surveys JOIN Users on Surveys.user_id = Users.id where Surveys.id = :id");
     $r = $stmt->execute([":id" => $id]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$result) {
@@ -28,8 +42,8 @@ if (isset($id)) {
 ?>
 <?php if (isset($result) && !empty($result)): ?>
     <div class="card">
-        <div class="card-title">
-            <?php safer_echo($result["title"]); ?>
+        <div class="card-name">
+            <?php safer_echo($result["name"]); ?>
         </div>
         <div class="card-body">
             <div>
@@ -43,4 +57,7 @@ if (isset($id)) {
 <?php else: ?>
     <p>Error looking up id...</p>
 <?php endif; ?>
+<form method="POST">
+	<input type="submit" name="saved" value="Deactivate Survey"/>
+</form>
 <?php require(__DIR__ . "/partials/flash.php");
