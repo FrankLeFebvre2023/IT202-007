@@ -39,6 +39,12 @@ function get_user_id() {
     }
     return -1;
 }
+function get_privacy(){
+	if(is_logged_in() && isset($_SESSION["user"]["privacy"])){
+		return $_SESSION["user"]["privacy"];
+	}
+	return -1;
+}
 
 function safer_echo($var) {
     if (!isset($var)) {
