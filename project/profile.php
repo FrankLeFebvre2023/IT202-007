@@ -14,6 +14,7 @@ $db = getDB();
 if (isset($_POST["saved"])) {
     $isValid = true;
     //check if our email changed
+	$privacy = $_POST["privacy"];
     $newEmail = get_email();
     if (get_email() != $_POST["email"]) {
         //TODO we'll need to check if the email is available
@@ -64,8 +65,8 @@ if (isset($_POST["saved"])) {
         }
     }
     if ($isValid) {
-        $stmt = $db->prepare("UPDATE Users set email = :email, username= :username where id = :id");
-        $r = $stmt->execute([":email" => $newEmail, ":username" => $newUsername, ":id" => get_user_id()]);
+        $stmt = $db->prepare("UPDATE Users set email = :email, username= :username, privacy = :privacy where id = :id");
+        $r = $stmt->execute([":email" => $newEmail, ":username" => $newUsername, ":privacy" => $privacy, ":id" => get_user_id()]);
         if ($r) {
             flash("Updated profile");
         }
@@ -90,7 +91,7 @@ if (isset($_POST["saved"])) {
             }
         }
 //fetch/select fresh data in case anything changed
-        $stmt = $db->prepare("SELECT email, username from Users WHERE id = :id LIMIT 1");
+        $stmt = $db->prepare("SELECT email, username, privacy from Users WHERE id = :id LIMIT 1");
         $stmt->execute([":id" => get_user_id()]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($result) {
@@ -99,6 +100,7 @@ if (isset($_POST["saved"])) {
             //let's update our session too
             $_SESSION["user"]["email"] = $email;
             $_SESSION["user"]["username"] = $username;
+			$_SESSION["user"]["privacy"] = $privacy;
         }
     }
     else {
@@ -119,6 +121,11 @@ if (isset($_POST["saved"])) {
         <input type="password" name="password"/>
         <label for="cpw">Confirm Password</label>
         <input type="password" name="confirm"/>
+		<label>Privacy</label>
+			<select name = "privacy">
+				<option value="0">Private</option>
+				<option value="1">Public</option>
+			</select>
         <input type="submit" name="saved" value="Save Profile"/>
     </form>
 <?php require(__DIR__ . "/partials/flash.php");
